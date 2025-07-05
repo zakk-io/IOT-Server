@@ -18,11 +18,17 @@ const products = new mongoose.Schema({
         default: '0'
     },
 
+    transaction:{
+        type: String,
+        enum: ['buy', 'sell'],
+        required: true,
+        default: 'sell'
+    },
+
     createdAt: {
         type: Date,
         default: Date.now
-    }
-
+    },
 })
 
 

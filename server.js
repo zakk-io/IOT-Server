@@ -19,7 +19,6 @@ app.use(cors());
 
 // Basic route
 app.post('/api/products', async (req, res) => {
-    console.log(req.body);
     const {type,weight} = req.body;
 
     const product = new Products({
@@ -36,8 +35,14 @@ app.post('/api/products', async (req, res) => {
 
 app.get('/api/products', async (req, res) => {
     const products = await Products.find()
+    const totalWeight = products.reduce((acc, product) => acc + product.weight, 0);
+    const totalRevenue = products.reduce((acc, product) => acc + parseFloat(product.price), 0);
 
-    return res.json(products);
+    return res.json({
+        "totalWeight": totalWeight,
+        "totalRevenue": totalRevenue,
+        "products": products
+    });
 });
 
 
