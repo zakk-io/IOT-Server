@@ -19,11 +19,12 @@ app.use(cors());
 
 // Basic route
 app.post('/api/products', async (req, res) => {
-    const {type,weight} = req.body;
+    const {type,weight,price} = req.body;
 
     const product = new Products({
         type,
         weight,
+        price
     });
 
     await product.save()

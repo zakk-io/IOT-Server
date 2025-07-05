@@ -1,8 +1,8 @@
-POST http://127.0.0.1:3000/api/products
+POST https://iot-server-wbz3.onrender.com/api/products
 Content-Type: application/json
 
 
-{"type": "rice", "weight": 10} 
+{"type": "rice", "weight": 200} 
 
 
 
@@ -16,7 +16,7 @@ GET http://127.0.0.1:3000/api/products/686937efc107a3c227c63444
 
 
 ###
-PUT http://127.0.0.1:3000/api/products/686937efc107a3c227c63444
+PUT https://iot-server-wbz3.onrender.com/api/products/api/products/686937efc107a3c227c63444
 Content-Type: application/json
 
 
