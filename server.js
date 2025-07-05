@@ -14,6 +14,7 @@ mongoose.connect(process.env.MONGO_URI).then(() => console.log('mongodb connecte
 
 // Middlewares
 app.use(express.json());
+app.use(cors());
 
 
 // Basic route
