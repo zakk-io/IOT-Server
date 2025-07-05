@@ -18,6 +18,7 @@ app.use(express.json());
 
 // Basic route
 app.post('/api/products', async (req, res) => {
+    console.log(req.body);
     const {type,weight} = req.body;
 
     const product = new Products({
