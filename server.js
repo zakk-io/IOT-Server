@@ -33,11 +33,15 @@ app.post('/api/products', async (req, res) => {
 });
 
 
-
 app.get('/api/products', async (req, res) => {
-    const products = await Products.find()
-    const totalWeight = products.reduce((acc, product) => acc + product.weight, 0);
-    const totalRevenue = products.reduce((acc, product) => acc + parseFloat(product.price), 0);
+    const products = await Products.find();
+    const totalWeight = products
+        .filter(product => product.transaction === 'buy')
+        .reduce((acc, product) => acc + product.weight, 0);
+
+    const totalRevenue = products
+        .filter(product => product.transaction === 'sell')
+        .reduce((acc, product) => acc + parseFloat(product.price), 0);
 
     return res.json({
         "totalWeight": totalWeight,
