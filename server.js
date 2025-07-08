@@ -37,27 +37,26 @@ app.get('/api/products', async (req, res) => {
     const products = await Products.find();
 
     const totalWeightForRice = products
-        .filter(product => product.transaction === 'buy' && product.type === 'rice')
-        .reduce((acc, product) => acc + product.weight, 0);
+    .filter(p => p.transaction === 'buy' && p.type === 'Rice')
+    .reduce((sum, p) => sum + p.weight, 0);
 
-    const totalWeightForSuger = products
-        .filter(product => product.transaction === 'buy' && product.type === 'suger')
-        .reduce((acc, product) => acc + product.weight, 0);
+  const totalWeightForSugar = products
+    .filter(p => p.transaction === 'buy' && p.type === 'sugar')
+    .reduce((sum, p) => sum + p.weight, 0);
 
+  const totalRevenueForRice = products
+    .filter(p => p.transaction === 'sell' && p.type === 'Rice')
+    .reduce((sum, p) => sum + parseFloat(p.price), 0);
 
-    const totalRevenueForRice = products
-        .filter(product => product.transaction === 'sell' && product.type === 'rice')
-        .reduce((acc, product) => acc + parseFloat(product.price), 0);
-
-    const totalRevenueForsuger = products
-        .filter(product => product.transaction === 'sell' && product.type === 'suger')
-        .reduce((acc, product) => acc + parseFloat(product.price), 0);
+  const totalRevenueForSugar = products
+    .filter(p => p.transaction === 'sell' && p.type === 'sugar')
+    .reduce((sum, p) => sum + parseFloat(p.price), 0);
 
     return res.json({
         "totalWeightForRice": totalWeightForRice,
-        "totalWeightForSuger": totalWeightForSuger,
+        "totalWeightForSugar": totalWeightForSugar,
         "totalRevenueForRice": totalRevenueForRice,
-        "totalRevenueForsuger": totalRevenueForsuger,
+        "totalRevenueForSugar": totalRevenueForSugar,
         "products": products
     });
 });
