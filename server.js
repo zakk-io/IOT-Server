@@ -29,6 +29,19 @@ app.post('/api/products', async (req, res) => {
 
     await product.save()
 
+    const RiceProduct = await Products.findOne({type: 'Rice' && product.transaction === 'buy'});
+    const SugarProduct = await Products.findOne({type: 'sugar' && product.transaction === 'buy'});
+
+
+    if(type === 'Rice') {
+        RiceProduct.weight -= weight;
+        await RiceProduct.save();
+    }
+    else if(type === 'sugar') {
+        SugarProduct.weight -= weight;
+        await SugarProduct.save();
+    }
+
     return res.json(product)
 });
 
