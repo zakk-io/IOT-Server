@@ -1,8 +1,8 @@
-POST https://iot-server-wbz3.onrender.com/api/products
+POST http://127.0.0.1:3000/api/products
 Content-Type: application/json
 
 
-{"type": "rice", "weight": 200} 
+{"type": "sugar", "weight": 10} 
 
 
 
