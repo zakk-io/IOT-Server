@@ -74,6 +74,22 @@ app.get('/api/products/:id', async (req, res) => {
 
 app.put('/api/products/:id', async (req, res) => {
     const product = await Products.findByIdAndUpdate(req.params.id, req.body, {new: true});
+
+
+    const RiceProduct = await Products.findOne({type: 'Rice' && product.transaction === 'buy'});
+    const SugarProduct = await Products.findOne({type: 'sugar' && product.transaction === 'buy'});
+
+
+    if(product.type === 'Rice' && product.transaction === 'sell') {
+        RiceProduct.weight -= weight;
+        await RiceProduct.save();
+    }
+    else if(product.type === 'sugar' && product.transaction === 'sell') {
+        SugarProduct.weight -= weight;
+        await SugarProduct.save();
+    }
+
+
     return res.json(product);
 });
 
