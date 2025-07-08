@@ -35,17 +35,29 @@ app.post('/api/products', async (req, res) => {
 
 app.get('/api/products', async (req, res) => {
     const products = await Products.find();
-    const totalWeight = products
-        .filter(product => product.transaction === 'buy')
+
+    const totalWeightForRice = products
+        .filter(product => product.transaction === 'buy' && product.type === 'rice')
         .reduce((acc, product) => acc + product.weight, 0);
 
-    const totalRevenue = products
-        .filter(product => product.transaction === 'sell')
+    const totalWeightForSuger = products
+        .filter(product => product.transaction === 'buy' && product.type === 'suger')
+        .reduce((acc, product) => acc + product.weight, 0);
+
+
+    const totalRevenueForRice = products
+        .filter(product => product.transaction === 'sell' && product.type === 'rice')
+        .reduce((acc, product) => acc + parseFloat(product.price), 0);
+
+    const totalRevenueForsuger = products
+        .filter(product => product.transaction === 'sell' && product.type === 'suger')
         .reduce((acc, product) => acc + parseFloat(product.price), 0);
 
     return res.json({
-        "totalWeight": totalWeight,
-        "totalRevenue": totalRevenue,
+        "totalWeightForRice": totalWeightForRice,
+        "totalWeightForSuger": totalWeightForSuger,
+        "totalRevenueForRice": totalRevenueForRice,
+        "totalRevenueForsuger": totalRevenueForsuger,
         "products": products
     });
 });
