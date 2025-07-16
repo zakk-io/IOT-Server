@@ -20,9 +20,8 @@ const products = new mongoose.Schema({
 
     transaction:{
         type: String,
-        enum: ['buy', 'sell'],
+        enum: ['new_stock', 'sell'],
         required: true,
-        default: 'sell'
     },
 
     createdAt: {
