@@ -8,8 +8,8 @@ const products = new mongoose.Schema({
     },
 
     weight: {
-        type: Number,
-        required: true
+        type: String,
+        required: true,
     },
 
     price: {

@@ -19,38 +19,45 @@ app.use(cors());
 
 // Basic route
 app.post('/api/products', async (req, res) => {
-    const {type,weight,price,transaction} = req.body;
+    try {
+        const {type,weight,price,transaction} = req.body;
+        console.log(req.body.weight);
+    
+        const product = new Products({
+            type,
+            weight,
+            price,
+            transaction
+        });
+    
+        await product.save()
+    
+        const RiceProduct = await Products.findOne({
+            type:   'Rice',        
+            transaction: 'new_stock'     
+        });
+    
+        const SugarProduct = await Products.findOne({
+            type:   'Sugar',        
+            transaction: 'new_stock'  
+        });
+    
+    
+        if(type === 'Rice' && transaction === 'sell') {
+            RiceProduct.weight -= weight;
+            await RiceProduct.save();
+        }
+        else if(type === 'Sugar' && transaction === 'sell') {
+            SugarProduct.weight -= weight;
+            await SugarProduct.save();
+        }
+    
+        return res.json(product)
 
-    const product = new Products({
-        type,
-        weight,
-        price,
-        transaction
-    });
-
-    await product.save()
-
-    const RiceProduct = await Products.findOne({
-        type:   'Rice',        
-        transaction: 'new_stock'     
-    });
-
-    const SugarProduct = await Products.findOne({
-        type:   'Sugar',        
-        transaction: 'new_stock'  
-    });
-
-
-    if(type === 'Rice') {
-        RiceProduct.weight -= weight;
-        await RiceProduct.save();
+    } catch (error) {
+        console.error('Error saving product:', error);
+        return res.status(500).json(error);
     }
-    else if(type === 'Sugar') {
-        SugarProduct.weight -= weight;
-        await SugarProduct.save();
-    }
-
-    return res.json(product)
 });
 
 
