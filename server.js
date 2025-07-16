@@ -36,7 +36,7 @@ app.post('/api/products', async (req, res) => {
     });
 
     const SugarProduct = await Products.findOne({
-        type:   'sugar',        
+        type:   'Sugar',        
         transaction: 'new_stock'  
     });
 
@@ -45,7 +45,7 @@ app.post('/api/products', async (req, res) => {
         RiceProduct.weight -= weight;
         await RiceProduct.save();
     }
-    else if(type === 'sugar') {
+    else if(type === 'Sugar') {
         SugarProduct.weight -= weight;
         await SugarProduct.save();
     }
@@ -62,7 +62,7 @@ app.get('/api/products', async (req, res) => {
     .reduce((sum, p) => sum + p.weight, 0);
 
   const totalWeightForSugar = products
-    .filter(p => p.transaction === 'new_stock' && p.type === 'sugar')
+    .filter(p => p.transaction === 'new_stock' && p.type === 'Sugar')
     .reduce((sum, p) => sum + p.weight, 0);
 
   const totalRevenueForRice = products
@@ -70,7 +70,7 @@ app.get('/api/products', async (req, res) => {
     .reduce((sum, p) => sum + parseFloat(p.price), 0);
 
   const totalRevenueForSugar = products
-    .filter(p => p.transaction === 'sell' && p.type === 'sugar')
+    .filter(p => p.transaction === 'sell' && p.type === 'Sugar')
     .reduce((sum, p) => sum + parseFloat(p.price), 0);
 
     return res.json({
