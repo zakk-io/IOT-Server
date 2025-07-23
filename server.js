@@ -64,21 +64,27 @@ app.post('/api/products', async (req, res) => {
 app.get('/api/products', async (req, res) => {
     const products = await Products.find();
 
+    const toNum = v => {
+        const n = parseFloat(v);
+        return Number.isNaN(n) ? 0 : n;   // fails safe
+    };
+      
+
     const totalWeightForRice = products
     .filter(p => p.transaction === 'new_stock' && p.type === 'Rice')
-    .reduce((sum, p) => sum + p.weight, 0);
-
+    .reduce((sum, p) => sum + toNum(p.weight), 0);
+  
   const totalWeightForSugar = products
     .filter(p => p.transaction === 'new_stock' && p.type === 'Sugar')
-    .reduce((sum, p) => sum + p.weight, 0);
-
+    .reduce((sum, p) => sum + toNum(p.weight), 0);
+  
   const totalRevenueForRice = products
     .filter(p => p.transaction === 'sell' && p.type === 'Rice')
-    .reduce((sum, p) => sum + parseFloat(p.price), 0);
-
+    .reduce((sum, p) => sum + toNum(p.price), 0);
+  
   const totalRevenueForSugar = products
     .filter(p => p.transaction === 'sell' && p.type === 'Sugar')
-    .reduce((sum, p) => sum + parseFloat(p.price), 0);
+    .reduce((sum, p) => sum + toNum(p.price), 0);
 
     return res.json({
         "totalWeightForRice": totalWeightForRice,
